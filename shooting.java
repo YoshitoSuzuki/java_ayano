@@ -17,25 +17,49 @@ public class shooting {
         c.setColor("BLUE");
         int playerID = c.addFillRect(playerPos[0], playerPos[1], playerSize[0], playerSize[1]);
 
-        boolean isTargetExist = true;
+        boolean isTargetExist = false;
         int targetPos[] = new int[2];
-        int targetID;
+        int targetID = -1;
 
         int bulletPos[] = new int[2];
-        int bulletID;
+        int bulletID = -1;
+        boolean isBulletExist = false;
+
+        int score = 0;
+        int scoreID = c.addMsg(0, 0, "Socore: ", 20);
 
         while (true) {
-            if (isTargetExist) {
+            if (!isTargetExist) {
                 targetPos[0] = (int)(Math.random()*(windowSize[0] - targetSize[0] - padding[0]*2)) + padding[0];
                 targetPos[1] = padding[1];
                 targetID = c.addFillRect(targetPos[0], targetPos[1], targetSize[0], targetSize[1]);
+                isTargetExist = true;
+            }
+
+            if (!isBulletExist) {
+                bulletPos[0] = playerPos[0] + playerSize[0]/2 - bulletSize[0]/2;
+                bulletPos[1] = playerPos[1] - bulletSize[1];
+                bulletID = c.addFillRect(bulletPos[0], bulletPos[1], bulletSize[0], bulletSize[1]);
+                isBulletExist = true;
+            } else {
+                c.move(bulletID, 0, -bulletSpeed);
+                bulletPos[1] -= bulletSpeed;
+                if (bulletPos[1] < padding[1]) {
+                    c.delete(bulletID);
+                    isBulletExist = false;
+                }
+            }
+
+            if (bulletPos[0] < targetPos[0] + targetSize[0] && bulletPos[0] + bulletSize[0] > targetPos[0] && bulletPos[1] < targetPos[1] + targetSize[1] && bulletPos[1] + bulletSize[1] > targetPos[1]) {
+                c.delete(targetID);
                 isTargetExist = false;
+                c.delete(bulletID);
+                isBulletExist = false;
+                score ++;
+                c.setText(scoreID, "Score: " + score);
             }
             
-            bulletPos[0] = playerPos[0] + playerSize[0]/2 - bulletSize[0]/2;
-            bulletPos[1] = playerPos[1] - bulletSize[1];
-            bulletID = c.addFillRect(bulletPos[0], bulletPos[1], bulletSize[0], bulletSize[1]);
-
+            
             int p_x  = 0;
             char pressedKey = c.getPressedKey();
             switch (pressedKey) {
@@ -52,7 +76,7 @@ public class shooting {
             }
             playerPos[0] += p_x;
             c.move(playerID, p_x, 0);
-            c.wait(10);
+            c.wait(1);
         }
     }
 }
