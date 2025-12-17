@@ -18,9 +18,10 @@ public class shooting {
         double timeParameter = 1.25;
         int playerPos[] = {100, windowSize[1] - padding[1] - playerSize[1]};
 
+        c.post(windowSize[0], windowSize[1]);
+
         // ---------------------------------------------------
 
-        c.post(windowSize[0], windowSize[1]);
         c.setColor(0, 0, 0);
         c.addRect(padding[0], padding[1], windowSize[0] - padding[0] * 2, windowSize[1] - padding[1] * 2);
         c.setColor("BLUE");
