@@ -1,7 +1,12 @@
+import javax.swing.*;
 import java.lang.Math;
 
 public class TypingGame {
     public static void main(String[] args) {
+        JFrame window;
+        JLabel rabe;
+        rabe = new JLabel("Rabe");
+
         ICanvas c = new ICanvas();
 
         // --------------------------------------------------------
@@ -39,7 +44,10 @@ public class TypingGame {
         // ゲーム本体
         // --------------------------------------------------------
 
-        c.post(windowSize[0], windowSize[1]);
+        window = c.post(windowSize[0], windowSize[1]);
+
+        window.setTitle("Typing Game");
+        window.add(rabe, "North");
 
         // 使用するキーのリスト
         char keysList[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
